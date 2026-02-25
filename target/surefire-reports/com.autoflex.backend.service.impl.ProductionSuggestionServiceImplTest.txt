@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.autoflex.backend.service.impl.ProductionSuggestionServiceImplTest
--------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.135 s -- in com.autoflex.backend.service.impl.ProductionSuggestionServiceImplTest

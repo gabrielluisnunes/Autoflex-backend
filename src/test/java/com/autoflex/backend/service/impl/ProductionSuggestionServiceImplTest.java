@@ -1,6 +1,7 @@
 package com.autoflex.backend.service.impl;
 
 import com.autoflex.backend.dto.production.ProductionSuggestionResponse;
+import com.autoflex.backend.dto.production.ProductionSuggestionSummaryResponse;
 import com.autoflex.backend.entity.Product;
 import com.autoflex.backend.entity.ProductRawMaterial;
 import com.autoflex.backend.entity.RawMaterial;
@@ -88,7 +89,8 @@ class ProductionSuggestionServiceImplTest {
         void shouldCalculatePossibleProductionAndSortByTotalValueDesc() {
                 when(productRepository.findAllWithGraphBy()).thenReturn(List.of(productA, productB));
 
-                List<ProductionSuggestionResponse> suggestions = productionSuggestionService.getSuggestions();
+                ProductionSuggestionSummaryResponse summary = productionSuggestionService.getSuggestionsSummary();
+                List<ProductionSuggestionResponse> suggestions = summary.suggestions();
 
                 assertThat(suggestions).hasSize(2);
                 assertThat(suggestions.getFirst().productCode()).isEqualTo("P-A");
@@ -98,6 +100,7 @@ class ProductionSuggestionServiceImplTest {
                 assertThat(suggestions.get(1).productCode()).isEqualTo("P-B");
                 assertThat(suggestions.get(1).possibleQuantity()).isEqualTo(3L);
                 assertThat(suggestions.get(1).totalValue()).isEqualByComparingTo("360.00");
+                assertThat(summary.totalProductionValue()).isEqualByComparingTo("860.00");
         }
 
         @Test
@@ -111,10 +114,12 @@ class ProductionSuggestionServiceImplTest {
 
                 when(productRepository.findAllWithGraphBy()).thenReturn(List.of(productWithoutMaterials));
 
-                List<ProductionSuggestionResponse> suggestions = productionSuggestionService.getSuggestions();
+                ProductionSuggestionSummaryResponse summary = productionSuggestionService.getSuggestionsSummary();
+                List<ProductionSuggestionResponse> suggestions = summary.suggestions();
 
                 assertThat(suggestions).hasSize(1);
                 assertThat(suggestions.getFirst().possibleQuantity()).isEqualTo(0L);
                 assertThat(suggestions.getFirst().totalValue()).isEqualByComparingTo("0.00");
+                assertThat(summary.totalProductionValue()).isEqualByComparingTo("0.00");
         }
 }

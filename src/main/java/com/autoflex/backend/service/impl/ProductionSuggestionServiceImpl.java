@@ -1,6 +1,7 @@
 package com.autoflex.backend.service.impl;
 
 import com.autoflex.backend.dto.production.ProductionSuggestionResponse;
+import com.autoflex.backend.dto.production.ProductionSuggestionSummaryResponse;
 import com.autoflex.backend.entity.Product;
 import com.autoflex.backend.entity.ProductRawMaterial;
 import com.autoflex.backend.repository.ProductRepository;
@@ -27,6 +28,17 @@ public class ProductionSuggestionServiceImpl implements ProductionSuggestionServ
                 .map(this::toSuggestion)
                 .sorted(Comparator.comparing(ProductionSuggestionResponse::totalValue).reversed())
                 .toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ProductionSuggestionSummaryResponse getSuggestionsSummary() {
+        List<ProductionSuggestionResponse> suggestions = getSuggestions();
+        BigDecimal totalProductionValue = suggestions.stream()
+                .map(ProductionSuggestionResponse::totalValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new ProductionSuggestionSummaryResponse(suggestions, totalProductionValue);
     }
 
     private ProductionSuggestionResponse toSuggestion(Product product) {
