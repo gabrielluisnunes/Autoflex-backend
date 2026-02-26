@@ -41,6 +41,6 @@ public class ProductRawMaterial {
     @JoinColumn(name = "raw_material_id", nullable = false)
     private RawMaterial rawMaterial;
 
-    @Column(nullable = false, precision = 19, scale = 4)
+    @Column(nullable = false, precision = 14, scale = 3)
     private BigDecimal requiredQuantity;
 }

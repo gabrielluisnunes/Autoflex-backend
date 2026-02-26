@@ -38,7 +38,7 @@ public class Product {
     @Column(nullable = false, length = 150)
     private String name;
 
-    @Column(nullable = false, precision = 19, scale = 2)
+    @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal price;
 
     @Builder.Default

@@ -38,7 +38,7 @@ public class RawMaterial {
     @Column(nullable = false, length = 150)
     private String name;
 
-    @Column(nullable = false, precision = 19, scale = 4)
+    @Column(nullable = false, precision = 14, scale = 3)
     private BigDecimal stockQuantity;
 
     @Builder.Default

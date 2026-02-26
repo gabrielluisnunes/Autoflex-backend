@@ -75,6 +75,7 @@ Flyway is enabled and runs automatically at startup.
 - Migration location: `src/main/resources/db/migration`
 - Initial migration: `V1__init_schema.sql`
 - Production hardening migration: `V2__add_audit_constraints_and_cascade_rules.sql`
+- Precision and sorting migration: `V3__align_numeric_precision_and_price_index.sql`
 
 Hibernate is configured with:
 
@@ -88,6 +89,8 @@ Professional SQL package is available in:
 - `docs/database/02_seed_sample_data.sql`
 - `docs/database/03_index_optimization.sql`
 - `docs/database/04_conventions_and_integration.md`
+- `docs/database/05_production_queries.sql`
+- `docs/database/06_verification_checklist.md`
 
 ## Running the Application
 

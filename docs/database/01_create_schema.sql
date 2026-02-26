@@ -1,9 +1,7 @@
 -- =============================================
 -- Autoflex Production Inventory Schema
--- PostgreSQL 16+ (stable features)
+-- PostgreSQL 16.x (stable production line)
 -- =============================================
-
-BEGIN;
 
 -- =============================================
 -- 1) Utility function for updated_at handling
@@ -25,18 +23,18 @@ CREATE TABLE IF NOT EXISTS products (
     id BIGSERIAL PRIMARY KEY,
     code VARCHAR(50) NOT NULL,
     name VARCHAR(150) NOT NULL,
-    price NUMERIC(19, 2) NOT NULL,
+    price NUMERIC(12, 2) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     CONSTRAINT uk_products_code UNIQUE (code),
-    CONSTRAINT ck_products_price_positive CHECK (price > 0)
+    CONSTRAINT ck_products_price_non_negative CHECK (price >= 0)
 );
 
 CREATE TABLE IF NOT EXISTS raw_materials (
     id BIGSERIAL PRIMARY KEY,
     code VARCHAR(50) NOT NULL,
     name VARCHAR(150) NOT NULL,
-    stock_quantity NUMERIC(19, 4) NOT NULL,
+    stock_quantity NUMERIC(14, 3) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     CONSTRAINT uk_raw_materials_code UNIQUE (code),
@@ -47,7 +45,7 @@ CREATE TABLE IF NOT EXISTS product_raw_materials (
     id BIGSERIAL PRIMARY KEY,
     product_id BIGINT NOT NULL,
     raw_material_id BIGINT NOT NULL,
-    required_quantity NUMERIC(19, 4) NOT NULL,
+    required_quantity NUMERIC(14, 3) NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     CONSTRAINT uk_product_raw_material UNIQUE (product_id, raw_material_id),
     CONSTRAINT ck_product_raw_material_required_positive CHECK (required_quantity > 0),
@@ -56,7 +54,20 @@ CREATE TABLE IF NOT EXISTS product_raw_materials (
 );
 
 -- =============================================
--- 3) Triggers for audit columns
+-- 3) Performance indexes
+-- =============================================
+CREATE UNIQUE INDEX IF NOT EXISTS idx_products_code_unique ON products (code);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_raw_materials_code_unique ON raw_materials (code);
+
+CREATE INDEX IF NOT EXISTS idx_products_price ON products (price DESC);
+
+CREATE INDEX IF NOT EXISTS idx_prm_product_id ON product_raw_materials (product_id);
+
+CREATE INDEX IF NOT EXISTS idx_prm_raw_material_id ON product_raw_materials (raw_material_id);
+
+-- =============================================
+-- 4) Triggers for audit columns
 -- =============================================
 DROP TRIGGER IF EXISTS trg_products_set_updated_at ON products;
 
@@ -71,5 +82,3 @@ CREATE TRIGGER trg_raw_materials_set_updated_at
 BEFORE UPDATE ON raw_materials
 FOR EACH ROW
 EXECUTE FUNCTION fn_set_updated_at();
-
-COMMIT;
