@@ -1,0 +1,342 @@
+{
+  "info": {
+    "name": "Autoflex Backend API",
+    "_postman_id": "f9d94237-f2b7-4cb9-95b8-c19d0f64f0b7",
+    "description": "Collection for validating Autoflex backend endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "productId",
+      "value": "1"
+    },
+    {
+      "key": "rawMaterialId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"PRD-100\",\n  \"name\": \"Premium Widget\",\n  \"price\": 199.90\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Products",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/products?page=0&size=10&sort=name,asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "sort",
+                  "value": "name,asc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Product by Id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{productId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"PRD-100\",\n  \"name\": \"Premium Widget Updated\",\n  \"price\": 210.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{productId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{productId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{productId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Raw Materials",
+      "item": [
+        {
+          "name": "Create Raw Material",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"RM-STEEL\",\n  \"name\": \"Steel\",\n  \"stockQuantity\": 1000.0000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/raw-materials",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "raw-materials"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Raw Materials",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/raw-materials?page=0&size=10&sort=name,asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "raw-materials"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                },
+                {
+                  "key": "sort",
+                  "value": "name,asc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Raw Material by Id",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/raw-materials/{{rawMaterialId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "raw-materials",
+                "{{rawMaterialId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Raw Material",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"RM-STEEL\",\n  \"name\": \"Steel Updated\",\n  \"stockQuantity\": 950.0000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/raw-materials/{{rawMaterialId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "raw-materials",
+                "{{rawMaterialId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Raw Material",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/raw-materials/{{rawMaterialId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "raw-materials",
+                "{{rawMaterialId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Associations",
+      "item": [
+        {
+          "name": "Associate Raw Material to Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rawMaterialId\": {{rawMaterialId}},\n  \"requiredQuantity\": 10.0000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{productId}}/raw-materials",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{productId}}",
+                "raw-materials"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Remove Raw Material from Product",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/products/{{productId}}/raw-materials/{{rawMaterialId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "products",
+                "{{productId}}",
+                "raw-materials",
+                "{{rawMaterialId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Production",
+      "item": [
+        {
+          "name": "Get Production Suggestions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/production/suggestions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "production",
+                "suggestions"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

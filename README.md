@@ -178,6 +178,28 @@ Current automated test coverage includes:
 - Integration tests for production suggestion endpoint
 - Integration tests for association and common REST error scenarios (`400`, `404`, `409`)
 
+## CI Pipeline
+
+GitHub Actions workflow is available at:
+
+- `.github/workflows/ci.yml`
+
+It runs on push and pull request to `main` and executes:
+
+- `mvn -B -ntp clean test`
+
+## Postman Collection
+
+A ready-to-import Postman collection is available at:
+
+- `docs/autoflex-api.postman_collection.json`
+
+Collection variables:
+
+- `baseUrl` (default: `http://localhost:8080`)
+- `productId`
+- `rawMaterialId`
+
 ## Notes
 
 - Pagination uses stable DTO serialization for consistent API output.
