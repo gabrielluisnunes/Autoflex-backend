@@ -1,7 +1,7 @@
 package com.autoflex.backend.integration;
 
-import com.autoflex.backend.entity.Product;
-import com.autoflex.backend.repository.ProductRepository;
+import com.autoflex.backend.entity.RawMaterial;
+import com.autoflex.backend.repository.RawMaterialRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
-class ProductControllerIntegrationTest extends AbstractIntegrationTest {
+class RawMaterialControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -28,44 +28,44 @@ class ProductControllerIntegrationTest extends AbstractIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private ProductRepository productRepository;
+    private RawMaterialRepository rawMaterialRepository;
 
     @BeforeEach
     void cleanDatabase() {
-        productRepository.deleteAll();
+        rawMaterialRepository.deleteAll();
     }
 
     @Test
-    void shouldCreateProductSuccessfully() throws Exception {
+    void shouldCreateRawMaterialSuccessfully() throws Exception {
         Map<String, Object> payload = Map.of(
-                "code", "PRD-001",
-                "name", "Product One",
-                "price", new BigDecimal("99.90"));
+                "code", "RM-001",
+                "name", "Steel",
+                "stockQuantity", new BigDecimal("120.5000"));
 
-        mockMvc.perform(post("/api/products")
+        mockMvc.perform(post("/api/raw-materials")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(payload)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.code").value("PRD-001"))
-                .andExpect(jsonPath("$.name").value("Product One"))
-                .andExpect(jsonPath("$.price").value(99.90));
+                .andExpect(jsonPath("$.code").value("RM-001"))
+                .andExpect(jsonPath("$.name").value("Steel"))
+                .andExpect(jsonPath("$.stockQuantity").value(120.5000));
     }
 
     @Test
-    void shouldReturnPaginatedProducts() throws Exception {
-        productRepository.save(Product.builder()
-                .code("PRD-002")
-                .name("Product Two")
-                .price(new BigDecimal("10.00"))
+    void shouldReturnPaginatedRawMaterials() throws Exception {
+        rawMaterialRepository.save(RawMaterial.builder()
+                .code("RM-002")
+                .name("Plastic")
+                .stockQuantity(new BigDecimal("50.0000"))
                 .build());
-        productRepository.save(Product.builder()
-                .code("PRD-003")
-                .name("Product Three")
-                .price(new BigDecimal("15.00"))
+        rawMaterialRepository.save(RawMaterial.builder()
+                .code("RM-003")
+                .name("Aluminum")
+                .stockQuantity(new BigDecimal("70.0000"))
                 .build());
 
-        mockMvc.perform(get("/api/products?page=0&size=1&sort=name,asc"))
+        mockMvc.perform(get("/api/raw-materials?page=0&size=1&sort=name,asc"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray())
                 .andExpect(jsonPath("$.content.length()").value(1))
@@ -73,13 +73,13 @@ class ProductControllerIntegrationTest extends AbstractIntegrationTest {
     }
 
     @Test
-    void shouldReturnBadRequestWhenPayloadIsInvalid() throws Exception {
+    void shouldReturnBadRequestWhenRawMaterialPayloadIsInvalid() throws Exception {
         Map<String, Object> payload = Map.of(
                 "code", "",
                 "name", "",
-                "price", new BigDecimal("0"));
+                "stockQuantity", new BigDecimal("-1"));
 
-        mockMvc.perform(post("/api/products")
+        mockMvc.perform(post("/api/raw-materials")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(payload)))
                 .andExpect(status().isBadRequest())
@@ -87,35 +87,35 @@ class ProductControllerIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.message").value("Validation failed"))
                 .andExpect(jsonPath("$.validationErrors.code").exists())
                 .andExpect(jsonPath("$.validationErrors.name").exists())
-                .andExpect(jsonPath("$.validationErrors.price").exists());
+                .andExpect(jsonPath("$.validationErrors.stockQuantity").exists());
     }
 
     @Test
-    void shouldReturnNotFoundWhenProductDoesNotExist() throws Exception {
-        mockMvc.perform(get("/api/products/999999"))
+    void shouldReturnNotFoundWhenRawMaterialDoesNotExist() throws Exception {
+        mockMvc.perform(get("/api/raw-materials/999999"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.status").value(404))
-                .andExpect(jsonPath("$.message").value("Product not found with id: 999999"));
+                .andExpect(jsonPath("$.message").value("Raw material not found with id: 999999"));
     }
 
     @Test
-    void shouldReturnConflictWhenProductCodeAlreadyExists() throws Exception {
-        productRepository.save(Product.builder()
-                .code("PRD-001")
-                .name("Existing Product")
-                .price(new BigDecimal("10.00"))
+    void shouldReturnConflictWhenRawMaterialCodeAlreadyExists() throws Exception {
+        rawMaterialRepository.save(RawMaterial.builder()
+                .code("RM-001")
+                .name("Existing RM")
+                .stockQuantity(new BigDecimal("1.0000"))
                 .build());
 
         Map<String, Object> payload = Map.of(
-                "code", "PRD-001",
-                "name", "New Product",
-                "price", new BigDecimal("50.00"));
+                "code", "RM-001",
+                "name", "New RM",
+                "stockQuantity", new BigDecimal("10.0000"));
 
-        mockMvc.perform(post("/api/products")
+        mockMvc.perform(post("/api/raw-materials")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(payload)))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.status").value(409))
-                .andExpect(jsonPath("$.message").value("Product code already exists: PRD-001"));
+                .andExpect(jsonPath("$.message").value("Raw material code already exists: RM-001"));
     }
 }
