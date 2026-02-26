@@ -74,10 +74,20 @@ Flyway is enabled and runs automatically at startup.
 
 - Migration location: `src/main/resources/db/migration`
 - Initial migration: `V1__init_schema.sql`
+- Production hardening migration: `V2__add_audit_constraints_and_cascade_rules.sql`
 
 Hibernate is configured with:
 
 - `spring.jpa.hibernate.ddl-auto=validate`
+
+## Database Architecture Package
+
+Professional SQL package is available in:
+
+- `docs/database/01_create_schema.sql`
+- `docs/database/02_seed_sample_data.sql`
+- `docs/database/03_index_optimization.sql`
+- `docs/database/04_conventions_and_integration.md`
 
 ## Running the Application
 
