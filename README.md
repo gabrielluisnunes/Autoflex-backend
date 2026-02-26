@@ -7,7 +7,7 @@ Production-ready backend for inventory management and production suggestions.
 - Java 21 (LTS)
 - Spring Boot 3.5.x
 - Maven
-- PostgreSQL
+- MySQL
 - Spring Data JPA / Hibernate
 - Flyway
 - Lombok
@@ -56,16 +56,16 @@ Layered architecture:
 
 - Java 21+
 - Maven 3.9+
-- PostgreSQL 14+
+- MySQL 8.0+
 - Docker Desktop (required for Testcontainers integration tests)
 
 ## Environment Variables
 
 Optional (defaults are configured in `application.yml`):
 
-- `DB_URL` (default: `jdbc:postgresql://localhost:5432/autoflex`)
-- `DB_USERNAME` (default: `postgres`)
-- `DB_PASSWORD` (default: `postgres`)
+- `DB_URL` (default: `jdbc:mysql://localhost:3306/autoflex?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC`)
+- `DB_USERNAME` (default: `root`)
+- `DB_PASSWORD` (default: `root`)
 - `SERVER_PORT` (default: `8080`)
 
 ## Database Migrations
@@ -73,9 +73,9 @@ Optional (defaults are configured in `application.yml`):
 Flyway is enabled and runs automatically at startup.
 
 - Migration location: `src/main/resources/db/migration`
-- Initial migration: `V1__init_schema.sql`
-- Production hardening migration: `V2__add_audit_constraints_and_cascade_rules.sql`
-- Precision and sorting migration: `V3__align_numeric_precision_and_price_index.sql`
+- Runtime migration location: `src/main/resources/db/migration/mysql`
+- Runtime migration: `V1__init_mysql_schema.sql`
+- PostgreSQL migrations (`V1`, `V2`, `V3`) are kept for historical/reference context in docs.
 
 Hibernate is configured with:
 
