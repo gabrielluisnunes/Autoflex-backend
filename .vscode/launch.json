@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Autoflex Backend (MySQL)",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.autoflex.backend.AutoflexApplication",
+      "projectName": "backend",
+      "env": {
+        "DB_URL": "jdbc:mysql://localhost:3306/autoflex?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
+        "DB_USERNAME": "root",
+        "DB_PASSWORD": "${input:autoflexDbPassword}"
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "autoflexDbPassword",
+      "type": "promptString",
+      "description": "MySQL password for user root",
+      "password": true
+    }
+  ]
+}

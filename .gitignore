@@ -1,4 +1,5 @@
 target/
 .idea/
-.vscode/
+.vscode/*
+!.vscode/launch.json
 *.iml
