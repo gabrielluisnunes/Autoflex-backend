@@ -68,6 +68,12 @@ Optional (defaults are configured in `application.yml`):
 - `DB_PASSWORD` (default: `root`)
 - `SERVER_PORT` (default: `8080`)
 
+For local development security:
+
+- Copy `.env.example` to `.env`
+- Fill your real local credentials in `.env`
+- Do not commit `.env` (it is ignored by `.gitignore`)
+
 ## Database Migrations
 
 Flyway is enabled and runs automatically at startup.
@@ -97,6 +103,8 @@ Professional SQL package is available in:
 ```bash
 mvn spring-boot:run
 ```
+
+VS Code Run/Debug (`Autoflex Backend (MySQL)`) loads variables from `backend/.env`.
 
 ## API Documentation
 

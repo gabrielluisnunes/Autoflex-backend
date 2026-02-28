@@ -1,5 +1,8 @@
 target/
 .idea/
+.env
+.env.*
+!.env.example
 .vscode/*
 !.vscode/launch.json
 *.iml
