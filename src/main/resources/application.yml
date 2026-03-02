@@ -38,6 +38,14 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+autoflex:
+  security:
+    enabled: ${SECURITY_ENABLED:true}
+    seed-default-users: ${SECURITY_SEED_DEFAULT_USERS:true}
+    jwt:
+      secret: ${JWT_SECRET:dGhpc0lzQVN1cGVyU2VjdXJlQmFzZTY0S2V5Rm9yQXV0b2ZsZXhKc3duVG9rZW5TaWduaW5nMTIzNDU2Nzg5MDEyMzQ=}
+      expiration-ms: ${JWT_EXPIRATION_MS:3600000}
+
 logging:
   level:
     "[org.hibernate.SQL]": info
