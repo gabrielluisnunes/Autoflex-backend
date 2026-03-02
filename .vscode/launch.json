@@ -8,6 +8,7 @@
       "cwd": "${workspaceFolder}",
       "mainClass": "com.autoflex.backend.AutoflexApplication",
       "projectName": "backend",
+      "preLaunchTask": "autoflex: clear backend ports",
       "envFile": "${workspaceFolder}/.env"
     }
   ]

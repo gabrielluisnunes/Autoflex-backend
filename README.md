@@ -104,6 +104,33 @@ Professional SQL package is available in:
 mvn spring-boot:run
 ```
 
+## Running MySQL with Docker
+
+From workspace root (`Autoflex`):
+
+```bash
+docker compose up -d mysql
+```
+
+To stop database:
+
+```bash
+docker compose down
+```
+
+Default local credentials for compose:
+
+- Database: `autoflex`
+- User: `root`
+- Password: `root`
+- Host Port: `3307` (to avoid conflict with local MySQL on `3306`)
+
+When using Docker database, set backend URL to:
+
+- `DB_URL=jdbc:mysql://localhost:3307/autoflex?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC`
+
+You can override credentials by creating a root `.env` file based on `.env.example`.
+
 VS Code Run/Debug (`Autoflex Backend (MySQL)`) loads variables from `backend/.env`.
 
 ## API Documentation
