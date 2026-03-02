@@ -51,6 +51,7 @@ Layered architecture:
 - Proper HTTP status codes
 - Pagination support
 - OpenAPI documentation
+- JWT authentication and role-based authorization
 
 ## Prerequisites
 
@@ -67,6 +68,10 @@ Optional (defaults are configured in `application.yml`):
 - `DB_USERNAME` (default: `root`)
 - `DB_PASSWORD` (default: `root`)
 - `SERVER_PORT` (default: `8080`)
+- `SECURITY_ENABLED` (default: `true`)
+- `SECURITY_SEED_DEFAULT_USERS` (default: `true`)
+- `JWT_SECRET` (Base64 secret used to sign tokens)
+- `JWT_EXPIRATION_MS` (default: `3600000`)
 
 For local development security:
 
@@ -140,6 +145,31 @@ After starting the app:
 - Swagger UI: `http://localhost:8080/swagger-ui.html`
 - OpenAPI JSON: `http://localhost:8080/api-docs`
 
+Swagger JWT usage:
+
+1. Call `POST /auth/login`
+2. Copy `token` from response
+3. Click `Authorize` in Swagger UI
+4. Paste `Bearer <token>`
+
+## Authentication
+
+Public endpoints:
+
+- `POST /auth/login`
+- `POST /auth/register`
+
+Seeded default users:
+
+- `admin / admin123` (`ADMIN`)
+- `user / user123` (`USER`)
+
+Authorization rules:
+
+- All `/api/**` endpoints require authentication
+- `ADMIN` can manage products and raw materials (including associations)
+- `ADMIN` and `USER` can view production suggestions
+
 ## REST Endpoints
 
 ### Products
@@ -163,6 +193,11 @@ After starting the app:
 ### Production
 
 - `GET /api/production/suggestions`
+
+### Auth
+
+- `POST /auth/login`
+- `POST /auth/register`
 
 ## Example Requests
 
@@ -221,10 +256,15 @@ mvn test
 Current automated test coverage includes:
 
 - Unit tests for production suggestion calculation
+- Unit tests for authentication service
 - Integration tests for product endpoints
 - Integration tests for raw material endpoints
 - Integration tests for production suggestion endpoint
 - Integration tests for association and common REST error scenarios (`400`, `404`, `409`)
+
+Security validation checklist:
+
+- `docs/security-validation-checklist.md`
 
 ## CI Pipeline
 
