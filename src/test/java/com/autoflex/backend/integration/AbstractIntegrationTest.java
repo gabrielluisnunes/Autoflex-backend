@@ -25,5 +25,7 @@ public abstract class AbstractIntegrationTest {
         registry.add("spring.datasource.driver-class-name", POSTGRESQL_CONTAINER::getDriverClassName);
         registry.add("spring.flyway.enabled", () -> "false");
         registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
+        registry.add("autoflex.security.enabled", () -> "false");
+        registry.add("autoflex.security.seed-default-users", () -> "false");
     }
 }
