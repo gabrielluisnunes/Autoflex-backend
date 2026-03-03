@@ -109,6 +109,58 @@ Professional SQL package is available in:
 mvn spring-boot:run
 ```
 
+## 5-Minute Evaluation Guide
+
+Fast path for technical reviewers:
+
+1. Start database (workspace root):
+
+```bash
+docker compose up -d mysql
+```
+
+2. Start backend (this folder):
+
+```bash
+set DB_URL=jdbc:mysql://localhost:3307/autoflex?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+set DB_USERNAME=root
+set DB_PASSWORD=root
+set SERVER_PORT=8081
+mvn spring-boot:run
+```
+
+3. Start frontend (`../frontend`) and open app:
+
+```bash
+npm install
+npm run dev
+```
+
+4. Login with seeded credentials:
+
+- `admin / admin123`
+- `user / user123`
+
+5. Validate quickly:
+
+- Auth endpoints (`/api/auth/login`, `/api/auth/register`)
+- Production suggestions (`/api/production/suggestions`)
+- Production execution with stock decrement (`/api/production/execute`)
+
+### One-command Smoke Test (PowerShell)
+
+From workspace root (`Autoflex`):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\backend\scripts\smoke-test.ps1
+```
+
+Optional custom base URL:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\backend\scripts\smoke-test.ps1 -BaseUrl http://localhost:8081
+```
+
 ## Running MySQL with Docker
 
 From workspace root (`Autoflex`):
